@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2, ViewChild } from '@angular/core';
 import { MatSnackBarRef, SimpleSnackBar, MatSnackBar } from '@angular/material';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/takeUntil';
@@ -54,12 +54,30 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
   // private filters: FiltersType = null; // FUTURE
   private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
 
+  previousUrl: string;
+
   constructor(
     public snackBar: MatSnackBar,
     private router: Router,
     private applicationService: ApplicationService,
-    public configService: ConfigService // used in template
-  ) { }
+    public configService: ConfigService, // used in template
+    private renderer: Renderer2
+  ) {
+
+    this.router.events
+    .subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const currentUrlSlug = event.url.slice(1);
+        if (currentUrlSlug === 'applications') {
+          this.renderer.addClass(document.body, currentUrlSlug);
+          alert('Add Class');
+        } else {
+          this.renderer.removeClass(document.body, currentUrlSlug);
+          alert('Remove Class');
+        }
+      }
+    });
+  }
 
   ngOnInit() {
     // prevent underlying map actions for list and filters components
