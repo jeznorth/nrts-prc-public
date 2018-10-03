@@ -415,7 +415,7 @@ export class ApplistMapComponent implements AfterViewInit, OnChanges, OnDestroy 
     this.configService.isApplistListVisible = !this.configService.isApplistListVisible;
     const x = this.configService.isApplistListVisible ? -this.applist.clientWidth / 2 : this.applist.clientWidth / 2;
     const y = 0;
-    this.map.panBy(L.point(x, y));
+    //this.map.panBy(L.point(x, y));
   }
 
   public onLoadStart() { this.loading = true; }
