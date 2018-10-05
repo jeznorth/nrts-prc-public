@@ -85,7 +85,6 @@
   }
 }
 
-
 // NAVBAR
 .navbar {
   padding: 0;
@@ -93,7 +92,7 @@
   z-index: 1000;
 
   .navbar-nav {
-    margin-top: 0.5rem;
+    margin-top: 0;
 
     .nav-link {
       position: relative;
@@ -158,6 +157,10 @@
   }
 }
 
+.navbar-collapse {
+  overflow: hidden;
+}
+
 @media (min-width: 768px) {
   .navbar {
     background: transparent;
@@ -219,6 +222,7 @@
   }
 
   .navbar-collapse {
+    height: auto !important;
     flex-grow: 0;
   }
 }

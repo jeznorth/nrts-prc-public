@@ -178,15 +178,18 @@ main {
   bottom: 1rem;
   right: 1rem;
   padding: 0.5rem;
-  opacity: 0;
   color: #003366;
   border-color: $gold;
   background: $gold;
-  transform: translateY(1rem);
-  transition: all ease-out 0.2s;
 
   i {
     vertical-align: middle;
+  }
+
+  &.hidden {
+    opacity: 0;
+    transform: translateY(1rem);
+    transition: all ease-out 0.2s;
   }
 
   &.visible {

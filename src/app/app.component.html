@@ -2,6 +2,10 @@
 <router-outlet id="scrollTop"></router-outlet>
 <app-footer></app-footer>
 
-<a href="#scrollTop" class="btn scroll-top-btn visible" pageScroll [pageScrollOffset]="100" [pageScrollDuration]="800">
+<a class="btn scroll-top-btn" href="#scrollTop" 
+	pageScroll 
+	[pageScrollOffset]="100" 
+	[pageScrollDuration]="800"
+	[ngClass]="isScrollBtnVisible ? 'visible' : 'hidden'" >
 	<i class="material-icons">arrow_upward</i>
 </a>
