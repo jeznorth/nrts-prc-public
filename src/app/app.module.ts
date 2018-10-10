@@ -34,6 +34,7 @@ import { OrganizationService } from 'app/services/organization.service';
 import { SearchService } from 'app/services/search.service';
 import { FeatureService } from 'app/services/feature.service';
 import { ConfigService } from 'app/services/config.service';
+import { UrlService } from 'app/services/url.service';
 
 @NgModule({
   imports: [
@@ -65,6 +66,7 @@ import { ConfigService } from 'app/services/config.service';
     CommentService,
     CommentPeriodService,
     ConfigService,
+    UrlService,
     DecisionService,
     DocumentService,
     OrganizationService,
