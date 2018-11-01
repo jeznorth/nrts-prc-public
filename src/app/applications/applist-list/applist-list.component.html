@@ -1,5 +1,9 @@
 <div class="app-list__container" id="applist-list" name="List of Crown land applications, limited by filters and bound by map view">
 
+    <div class="app-list__header">
+      header
+    </div>
+
     <div class="app-list__body">
   
       <!-- Initial Loading Indicator -->
@@ -12,9 +16,24 @@
       <div class="no-results" *ngIf="!loading && loadedApps().length === 0">
         <strong>No applications found</strong>
       </div>
+
+      <div class="app-list__scroll-container">
+        <table class="table">
+            <ng-template ngFor let-item [ngForOf]="loadedApps()">
+              <tr>
+                <td>{{item['clFile'] || 'Not Available'}}</td>
+                <td class="actions-col">
+                  <i class="material-icons" (click)="toggleCurrentApp(item);$event.stopPropagation();">
+                    info
+                  </i>
+                </td>
+              </tr>
+            </ng-template>
+        </table>
+      </div>
   
       <!-- Scrollable Content -->
-      <div class="app-list__scroll-container">
+      <div class="app-list__scroll-container" style="display: none;">
         <ul class="app-list__list">
           <ng-template ngFor let-item [ngForOf]="loadedApps()">
             <li class="app-card list-group-item" [class.active]="isCurrentApp(item)"

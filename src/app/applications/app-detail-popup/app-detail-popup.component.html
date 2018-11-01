@@ -73,7 +73,7 @@
           <span>{{app?.appStatus}}</span>
         </li>
       </ul>
-      <a class="app-link btn btn-primary" [routerLink]="['/a', app?._id]" title="View more information about this application">
+      <a class="app-link btn btn-primary" (click)="openAppDetail()" title="View more information about this application">
         View Application Details
       </a>
     </div>

@@ -114,8 +114,6 @@ export class ApplicationService {
   }
 
   // get all applications and related data
-  // TODO: instead of using promises to get all data at once, use observables and DEEP-OBSERVE changes
-  // see https://github.com/angular/angular/issues/11704
   getAllFull(pageNum: number = 0, pageSize: number = 1000000, regionFilters: object = {}, cpStatusFilters: object = {}, appStatusFilters: object = {},
     applicantFilter: string = null, clFileFilter: string = null, dispIdFilter: string = null, purposeFilter: string = null): Observable<Application[]> {
     // first get the applications

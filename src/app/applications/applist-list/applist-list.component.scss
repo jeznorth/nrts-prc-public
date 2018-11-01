@@ -36,12 +36,6 @@
   overflow-y: auto;
 }
 
-.app-list__list {
-  @include flex(1 1 auto);
-  margin: 0;
-  padding: 0;
-}
-
 // No Results Container 
 .no-results {
   padding: 1rem;
@@ -58,103 +52,6 @@
 
   + .no-results {
     display: none;
-  }
-}
-
-// Application Cards
-.app-card {
-  padding: 1rem;
-  font-size: 0.9375rem; // 14px
-
-  &.list-group-item {
-    border-radius: 0;
-    border: none;
-  }
-
-  + .app-card {
-    border-top: 1px solid #ddd;
-  }
-}
-
-// Application Card Key/Value Pairs
-.app-card__details {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-
-  li {
-    line-height: 1rem;
-    text-transform: capitalize;
-  
-    span {
-      display: block;
-    }
-
-    + li {
-      margin-top: 0.5rem;
-    }
-  }
-
-  .key {
-    margin-bottom: 0.2rem;
-    font-size: 0.8rem;
-    font-weight: bold;
-  }
-
-  .value {
-    &.client-name {
-      margin-bottom: 0.75rem;
-      letter-spacing: -0.02rem;
-      font-size: 1.15rem;
-      font-weight: bold;
-    }
-  }
-}
-
-// App Card Actions & Comment Status
-.app-card__actions {
-  margin-top: 1rem;
-
-  .comment-status-badge {
-    padding: 0.5rem;
-    text-transform: none;
-    font-size: 0.875rem;
-  
-    .date {
-      font-weight: normal;
-    }
-  }
-
-  .app-details-link {
-    padding: 0;
-  }
-}
-
-// Application List Options
-.app-list__options {
-  padding: 0.25rem 1rem;
-  border-top: 1px solid #ddd;
-  font-size: 0.825rem;
-
-  .form-check {
-    margin-bottom: 0.25rem;
-  }
-
-  .form-check-input {
-    margin-top: 0.2rem;
-  }
-}
-
-// Active State
-.active {
-  .app-card__details {
-    * {
-      color: #fff;
-    }
-  }
-
-  .app-details-link {
-    color: #fff;
   }
 }
 
@@ -176,5 +73,13 @@
 .spinner-container {
   + .no-results {
     display: none;
+  }
+}
+
+.actions-col {
+  width: 10rem;
+  text-align: right;
+  i {
+    cursor: pointer;
   }
 }

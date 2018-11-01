@@ -1,11 +1,53 @@
-<div class="applications-view" [ngClass]="configService.isApplistListVisible ? 'app-list-open':'app-list-closed'">
+<div class="app-view" [ngClass]="configService.isApplistListVisible ? 'detail-open':'detail-closed'">
+  
   <h1 class="sr-only">Find Applications in British Columbia</h1>
 
-  <app-applist-filters class="app-filters" #appfilters
-    [applications]="filterApps"
-    (updateMatching)="updateMatching()">
-  </app-applist-filters>
+  <div class="main-container">
+    <!-- Filters -->
+    <div class="app-filters">
+      <div class="app-filters__title">Filters</div>
+      <div class="app-filters__result-toggle">
+        <button class="btn btn-light" (click)="showMap()">Map</button>
+        <button class="btn btn-light" (click)="showList()">List</button>
+      </div>
+    </div>
 
+    <app-applist-filters class="app-filters" style="display: none;" #appfilters
+      [applications]="filterApps"
+      (updateMatching)="updateMatching()">
+    </app-applist-filters>
+
+    <div class="app-results" [ngClass]="toggleMapList ? 'show-map':'show-list'">
+      <!-- List View -->
+      <app-applist-list class="app-list" #applist
+        [applications]="listApps"
+        (setCurrentApp)="highlightApplication($event, true)"
+        (unsetCurrentApp)="highlightApplication($event, false)">
+      </app-applist-list>
+      <!-- Map View -->
+      <app-applist-map class="app-map" #appmap
+        [applications]="mapApps"
+        [applist]="applist"
+        [appfilters]="appfilters"
+        (updateVisible)="updateVisible()"
+        (reloadApps)="reloadApps()">
+      </app-applist-map>
+    </div>
+  </div>
+
+  <div class="detail-view open">
+    <div class="flex-panel">
+      <div class="flex-panel__header">
+        <div class="flex-panel__header--title">Detail</div>
+        <div class="flex-panel__header--close">
+          <span (click)="configService.isApplistListVisible = false; $event.stopPropagation();" >Close</span>
+        </div>
+        <app-applist-detail class="flex-panel__scroll" #appdetail [appId]="currentAppId"></app-applist-detail>
+      </div>
+    </div>
+  </div>
+  
+  <!--
   <div class="app-list-map-container">
     <div class="app-list-container">
       <app-applist-list class="app-list" #applist
@@ -13,10 +55,6 @@
         (setCurrentApp)="highlightApplication($event, true)"
         (unsetCurrentApp)="highlightApplication($event, false)">
       </app-applist-list>
-      <button class="toggle-app-list-btn btn" title="Show/hide list of applications" type="button"
-        (click)="toggleAppList();$event.stopPropagation();" aria-controls="applist-list">
-        <i class="material-icons">{{configService.isApplistListVisible ? 'keyboard_arrow_left':'keyboard_arrow_right'}}</i>
-      </button>
     </div>
 
     <div class="overlay" (click)="toggleAppList();$event.stopPropagation();"></div>
@@ -28,6 +66,8 @@
       (updateVisible)="updateVisible()"
       (reloadApps)="reloadApps()">
     </app-applist-map>
+
   </div>
+  -->
 
 </div>

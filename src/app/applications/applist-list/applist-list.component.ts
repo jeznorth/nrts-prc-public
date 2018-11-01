@@ -86,4 +86,5 @@ export class ApplistListComponent implements OnInit, OnChanges, OnDestroy {
       this.applications[i].isLoaded = (i < this.numToLoad);
     }
   }
+
 }

@@ -17,34 +17,6 @@ app-applications:host {
   }
 }
 
-.applications-view {
-  @include flex-box();
-  @include flex-flow(column nowrap);
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-// Application Filters
-.app-filters {
-  @include flex(0 0 auto);
-  display: block;
-  z-index: 1004;
-}
-
-@media (min-width: 1200px) {
-  .app-filters {
-    position: absolute;
-    top: 0.5rem;
-    left: 50%;
-    margin-left: -24rem;
-    width: 48rem;
-    z-index: 999;
-    box-shadow: $map-component-shadow;
-    transition: left ease-out $toggle-list-anim-duration;
-  }
-}
-
 // List Container
 .app-list-container {
   position: absolute;
@@ -68,28 +40,6 @@ app-applications:host {
 @media (min-width: 1200px) {
   .app-list-container {
     border-top: none;
-  }
-}
-
-.toggle-app-list-btn {
-  position: absolute;
-  top: 0.5rem;
-  right: -39px;
-  padding: 0;
-  width: 40px;
-  height: 3rem;
-  z-index: 1003;
-  box-shadow: $map-component-shadow;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  background: #fff;
-  transition: left ease-out $toggle-list-anim-duration; 
-  clip: rect(0,3.5rem,3.5rem,0);
-
-  i {
-    margin-top: 0.4rem;
-    margin-right: 0.1rem;
-    font-size: 1.875rem;
   }
 }
 
@@ -140,4 +90,115 @@ app-applications:host {
       left: calc(50% + 12.5rem);
     }
   }
+}
+
+.app-view {
+  @include flex-box();
+  @include flex-flow(row nowrap);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.main-container {
+  @include flex-box();
+  @include flex-flow(column nowrap);
+  @include flex(1 1 auto);
+  position: relative;
+  overflow: hidden;
+}
+
+.app-filters {
+  @include flex(0 0 auto);
+  padding: 1rem;
+}
+
+.app-results {
+  @include flex(1 1 auto);
+  position: relative;
+  background: #eee;
+}
+
+.app-list {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+}
+
+.detail-view {
+  border-left: 1px solid #ccc;
+}
+
+.detail-closed .detail-view {
+  width: 0;
+}
+
+.detail-open .detail-view {
+  width: 20rem;
+}
+
+.show-list {
+  .app-map {
+    visibility: hidden;
+  }
+}
+
+.show-map {
+  .app-list {
+    visibility: hidden;
+  }
+}
+
+.toggle-btn {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10000;
+}
+
+.app-filters {
+  @include flex-box();
+  @include flex-flow(row nowrap);
+  @include flex(0 0 auto);
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.app-filters__title {
+  @include flex(1 1 auto);
+}
+
+.app-filters__result-toggle {
+  @include flex(0 0 auto);
+}
+
+.flex-panel {
+  @include flex(1 1 auto);
+}
+
+.flex-panel__header {
+  @include flex-box();
+  @include flex-flow(row nowrap);
+  @include flex(0 0 auto);
+  padding: 1rem;
+
+  .flex-panel__header--title {
+    @include flex(1 1 auto);
+  }
+
+  .flex-panel__header--close {
+    @include flex(0 0 auto);
+  }
+}
+
+.flex-panel__scroll {
+  @include flex(1 1 auto);
+  overflow-y: scroll;
+}
+
+.flex-panel__footer {
+  @include flex(0 0 auto);
 }

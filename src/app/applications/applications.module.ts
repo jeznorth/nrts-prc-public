@@ -13,6 +13,7 @@ import { ApplicationsComponent } from './applications.component';
 import { ApplistListComponent } from './applist-list/applist-list.component';
 import { ApplistMapComponent } from './applist-map/applist-map.component';
 import { ApplistFiltersComponent } from './applist-filters/applist-filters.component';
+import { ApplistDetailComponent } from './applist-detail/applist-detail.component';
 import { AppDetailPopupComponent } from './app-detail-popup/app-detail-popup.component';
 
 @NgModule({
@@ -29,6 +30,7 @@ import { AppDetailPopupComponent } from './app-detail-popup/app-detail-popup.com
     ApplistListComponent,
     ApplistMapComponent,
     ApplistFiltersComponent,
+    ApplistDetailComponent,
     AppDetailPopupComponent
   ],
   entryComponents: [

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnChanges, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, AfterViewInit, OnChanges, OnDestroy, Input, Output, EventEmitter, animate } from '@angular/core';
 import { ApplicationRef, ElementRef, SimpleChanges, Injector, ComponentFactoryResolver } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'leaflet';
@@ -162,6 +162,14 @@ export class ApplistMapComponent implements AfterViewInit, OnChanges, OnDestroy 
     // add markers group
     this.map.addLayer(this.markerClusterGroup);
 
+    // add reset view control
+    //this.map.addControl(new resetViewControl());
+
+    // add zoom control
+    //L.control.zoom({ position: 'topright' }).addTo(this.map);
+
+    // add scale control
+    //L.control.scale({ position: 'bottomright' }).addTo(this.map);
 
     // add base maps layers control
     const baseLayers = {
@@ -281,7 +289,7 @@ export class ApplistMapComponent implements AfterViewInit, OnChanges, OnDestroy 
     // console.log('fitting bounds');
     const fitBoundsOptions: L.FitBoundsOptions = {
       // use top padding to adjust for filters header (which is always visible)
-      paddingTopLeft: L.point(0, this.appfilters.clientHeight),
+      // paddingTopLeft: L.point(0, this.appfilters.clientHeight),
       // disable animation to prevent known bug where zoom is sometimes incorrect
       // ref: https://github.com/Leaflet/Leaflet/issues/3249
       animate: false

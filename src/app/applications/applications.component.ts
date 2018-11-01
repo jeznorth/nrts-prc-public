@@ -4,7 +4,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/operator/concat';
+import 'rxjs/add/observable/concat';
 import 'rxjs/add/operator/finally';
 import * as L from 'leaflet';
 import * as _ from 'lodash';
@@ -12,6 +12,7 @@ import * as _ from 'lodash';
 import { Application } from 'app/models/application';
 import { ApplicationService } from 'app/services/application.service';
 import { ConfigService } from 'app/services/config.service';
+import { map } from 'rxjs/operators';
 // import { FiltersType } from 'app/applications/applist-filters/applist-filters.component'; // FUTURE
 
 // NB: this number was chosen (by profiling) to give reasonable app loading feedback
@@ -28,6 +29,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
   @ViewChild('appmap') appmap;
   @ViewChild('applist') applist;
   @ViewChild('appfilters') appfilters;
+  @ViewChild('appdetail') appdetail;
 
   // FUTURE: change this to an observable and components subscribe to changes ?
   // ref: https://github.com/escardin/angular2-community-faq/blob/master/services.md#how-do-i-communicate-between-components-using-a-shared-service
@@ -46,6 +48,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
     }
   }
 
+  private map: L.Map = null;
   private snackBarRef: MatSnackBarRef<SimpleSnackBar> = null;
   public allApps: Array<Application> = [];
   public filterApps: Array<Application> = [];
@@ -53,8 +56,8 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
   public listApps: Array<Application> = [];
   // private filters: FiltersType = null; // FUTURE
   private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
-
-  previousUrl: string;
+  public toggleMapList = true;
+  public currentAppId: string = null; // TODO: set this when list item is clicked
 
   constructor(
     public snackBar: MatSnackBar,
@@ -66,19 +69,22 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
 
     // Add a class to the body tag here to limit the height of the viewport when on the Applications page
     this.router.events
-    .subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        const currentUrlSlug = event.url.slice(1);
-        if (currentUrlSlug === 'applications') {
-          this.renderer.addClass(document.body, 'no-scroll');
-        } else {
-          this.renderer.removeClass(document.body, 'no-scroll');
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          const currentUrlSlug = event.url.slice(1);
+          if (currentUrlSlug === 'applications') {
+            this.renderer.addClass(document.body, 'no-scroll');
+          } else {
+            this.renderer.removeClass(document.body, 'no-scroll');
+          }
         }
-      }
-    });
+      });
   }
 
   ngOnInit() {
+    // console.log('isApplistListVisible =', this.configService.isApplistListVisible);
+
     // prevent underlying map actions for list and filters components
     const applist_list = <HTMLElement>document.getElementById('applist-list');
     L.DomEvent.disableClickPropagation(applist_list);
@@ -113,7 +119,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
           }
 
           // get all observables sequentially
-          Observable.of([] as Application[]).concat(...observables)
+          Observable.concat(...observables)
             .takeUntil(this.ngUnsubscribe)
             .finally(() => {
               this.snackBarRef.dismiss();
@@ -175,13 +181,34 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
    * Event handler called when list component selects or unselects an app.
    */
   public highlightApplication(app: Application, show: boolean) {
+    // do something on the map:
     this.appmap.onHighlightApplication(app, show);
+
+    // do something on the detail pane:
+    if (show) {
+      this.configService.isApplistListVisible = true;
+      this.currentAppId = app._id;
+    } else {
+      this.configService.isApplistListVisible = false;
+      this.currentAppId = null;
+    }
   }
 
-  /**
-   * Called when list component visibility is toggled.
-   */
-  public toggleAppList() {
-    this.configService.isApplistListVisible = !this.configService.isApplistListVisible;
+  // NOT USED
+  // /**
+  //  * Called when list component visibility is toggled.
+  //  */
+  // public toggleAppList() {
+  //   this.configService.isApplistListVisible = !this.configService.isApplistListVisible;
+  //   console.log('isApplistListVisible =', this.configService.isApplistListVisible);
+  // }
+
+  public showMap() {
+    this.toggleMapList = true;
   }
+
+  public showList() {
+    this.toggleMapList = false;
+  }
+
 }

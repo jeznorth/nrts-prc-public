@@ -14,6 +14,8 @@ export class ConfigService {
   private _isApplistFiltersVisible = false;
   private _listPageSize = 10;
 
+  private _isAppDetailsVisible = true;
+
   // TODO: store these in URL instead
   private _baseLayerName = 'World Topographic'; // NB: must match a valid base layer name
   private _mapBounds: L.LatLngBounds = null;
