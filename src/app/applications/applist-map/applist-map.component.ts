@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnChanges, OnDestroy, Input, Output, EventEmitter, animate } from '@angular/core';
+import { Component, AfterViewInit, OnChanges, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { ApplicationRef, ElementRef, SimpleChanges, Injector, ComponentFactoryResolver } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'leaflet';
@@ -52,6 +52,7 @@ export class ApplistMapComponent implements AfterViewInit, OnChanges, OnDestroy 
   @Input() applist; // from applications component
   @Input() appfilters; // from applications component
   @Output() updateVisible = new EventEmitter(); // to applications component
+  @Output() setCurrentApp = new EventEmitter(); // to applications component
   @Output() reloadApps = new EventEmitter(); // to applications component
 
   private map: L.Map = null;
@@ -163,13 +164,13 @@ export class ApplistMapComponent implements AfterViewInit, OnChanges, OnDestroy 
     this.map.addLayer(this.markerClusterGroup);
 
     // add reset view control
-    //this.map.addControl(new resetViewControl());
+    // this.map.addControl(new resetViewControl());
 
     // add zoom control
-    //L.control.zoom({ position: 'topright' }).addTo(this.map);
+    // L.control.zoom({ position: 'topright' }).addTo(this.map);
 
     // add scale control
-    //L.control.scale({ position: 'bottomright' }).addTo(this.map);
+    // L.control.scale({ position: 'bottomright' }).addTo(this.map);
 
     // add base maps layers control
     const baseLayers = {
@@ -343,7 +344,8 @@ export class ApplistMapComponent implements AfterViewInit, OnChanges, OnDestroy 
     const app = args[0] as Application;
     const marker = args[1].target as L.Marker;
 
-    this.applist.toggleCurrentApp(app); // update selected item in app list
+    // DO NOT TOGGLE LIST ITEM AT THIS TIME
+    // this.applist.toggleCurrentApp(app); // update selected item in app list
 
     // if there's already a popup, delete it
     let popup = marker.getPopup();
@@ -364,6 +366,10 @@ export class ApplistMapComponent implements AfterViewInit, OnChanges, OnDestroy 
     const compFactory = this.resolver.resolveComponentFactory(AppDetailPopupComponent);
     const compRef = compFactory.create(this.injector);
     compRef.instance.app = app;
+    // emit to own handler when component emits
+    compRef.instance.setCurrentApp.subscribe(a => {
+      this.setCurrentApp.emit(a);
+    });
     this.appRef.attachView(compRef.hostView);
     compRef.onDestroy(() => this.appRef.detachView(compRef.hostView));
     const div = document.createElement('div').appendChild(compRef.location.nativeElement);
@@ -399,21 +405,22 @@ export class ApplistMapComponent implements AfterViewInit, OnChanges, OnDestroy 
     }
   }
 
-  /**
-   * Center map on specified point, applying offset if needed.
-   */
-  // TODO: register for list/filter changes and apply offset accordingly ?
-  private centerMap(latlng: L.LatLng) {
-    let point = this.map.latLngToLayerPoint(latlng);
+  // NOT USED
+  // /**
+  //  * Center map on specified point, applying offset if needed.
+  //  */
+  // // TODO: register for list/filter changes and apply offset accordingly ?
+  // private centerMap(latlng: L.LatLng) {
+  //   let point = this.map.latLngToLayerPoint(latlng);
 
-    if (this.configService.isApplistListVisible) {
-      point = point.subtract([(this.applist.clientWidth / 2), 0]);
-    }
+  //   if (this.configService.isApplistListVisible) {
+  //     point = point.subtract([(this.applist.clientWidth / 2), 0]);
+  //   }
 
-    point = point.subtract([0, (this.appfilters.clientHeight / 2)]); // filters header is always visible
+  //   point = point.subtract([0, (this.appfilters.clientHeight / 2)]); // filters header is always visible
 
-    this.map.panTo(this.map.layerPointToLatLng(point));
-  }
+  //   this.map.panTo(this.map.layerPointToLatLng(point));
+  // }
 
   public onLoadStart() { this.loading = true; }
 

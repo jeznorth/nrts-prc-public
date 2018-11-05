@@ -83,8 +83,6 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // console.log('isApplistListVisible =', this.configService.isApplistListVisible);
-
     // prevent underlying map actions for list and filters components
     const applist_list = <HTMLElement>document.getElementById('applist-list');
     L.DomEvent.disableClickPropagation(applist_list);
@@ -178,7 +176,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Event handler called when list component selects or unselects an app.
+   * Event handler called when list or map component selects or unselects an app.
    */
   public highlightApplication(app: Application, show: boolean) {
     // do something on the map:
@@ -186,10 +184,10 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
 
     // do something on the detail pane:
     if (show) {
-      this.configService.isApplistListVisible = true;
+      this.configService.isApplistDetailVisible = true;
       this.currentAppId = app._id;
     } else {
-      this.configService.isApplistListVisible = false;
+      this.configService.isApplistDetailVisible = false;
       this.currentAppId = null;
     }
   }
@@ -200,7 +198,6 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
   //  */
   // public toggleAppList() {
   //   this.configService.isApplistListVisible = !this.configService.isApplistListVisible;
-  //   console.log('isApplistListVisible =', this.configService.isApplistListVisible);
   // }
 
   public showMap() {

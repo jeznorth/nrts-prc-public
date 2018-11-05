@@ -1,4 +1,4 @@
-<div class="app-view" [ngClass]="configService.isApplistListVisible ? 'detail-open':'detail-closed'">
+<div class="app-view" [ngClass]="configService.isApplistDetailVisible ? 'detail-open':'detail-closed'">
   
   <h1 class="sr-only">Find Applications in British Columbia</h1>
 
@@ -24,12 +24,14 @@
         (setCurrentApp)="highlightApplication($event, true)"
         (unsetCurrentApp)="highlightApplication($event, false)">
       </app-applist-list>
+
       <!-- Map View -->
       <app-applist-map class="app-map" #appmap
         [applications]="mapApps"
         [applist]="applist"
         [appfilters]="appfilters"
         (updateVisible)="updateVisible()"
+        (setCurrentApp)="highlightApplication($event, true)"
         (reloadApps)="reloadApps()">
       </app-applist-map>
     </div>
@@ -40,7 +42,7 @@
       <div class="flex-panel__header">
         <div class="flex-panel__header--title">Detail</div>
         <div class="flex-panel__header--close">
-          <span (click)="configService.isApplistListVisible = false; $event.stopPropagation();" >Close</span>
+          <span (click)="configService.isApplistDetailVisible = false; $event.stopPropagation();" >Close</span>
         </div>
         <app-applist-detail class="flex-panel__scroll" #appdetail [appId]="currentAppId"></app-applist-detail>
       </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { Application } from 'app/models/application';
 import { ApplicationService } from 'app/services/application.service';
 import { CommentPeriodService } from 'app/services/commentperiod.service';
@@ -11,7 +11,9 @@ import { ConfigService } from 'app/services/config.service';
 })
 
 export class AppDetailPopupComponent {
-  public app: Application = null;
+  @Output() setCurrentApp = new EventEmitter(); // to applications component
+
+  public app: Application = null; // set externally (when popup is created)
 
   constructor(
     public applicationService: ApplicationService, // used in template
@@ -20,6 +22,7 @@ export class AppDetailPopupComponent {
   ) { }
 
   public openAppDetail() {
-    this.configService.isApplistListVisible = true;
+    this.configService.isApplistDetailVisible = true;
+    this.setCurrentApp.emit(this.app);
   }
 }
