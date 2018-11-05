@@ -15,6 +15,9 @@ import { ApplistMapComponent } from './applist-map/applist-map.component';
 import { ApplistFiltersComponent } from './applist-filters/applist-filters.component';
 import { ApplistDetailComponent } from './applist-detail/applist-detail.component';
 import { AppDetailPopupComponent } from './app-detail-popup/app-detail-popup.component';
+import { ExploreComponent } from './explore/explore.component';
+import { ResultsBarComponent } from './results-bar/results-bar.component';
+import { ConfigurePurposeComponent } from './explore/configure-purpose/configure-purpose.component';
 
 @NgModule({
   imports: [
@@ -31,10 +34,14 @@ import { AppDetailPopupComponent } from './app-detail-popup/app-detail-popup.com
     ApplistMapComponent,
     ApplistFiltersComponent,
     ApplistDetailComponent,
-    AppDetailPopupComponent
+    AppDetailPopupComponent,
+    ExploreComponent,
+    ResultsBarComponent,
+    ConfigurePurposeComponent
   ],
   entryComponents: [
-    AppDetailPopupComponent
+    AppDetailPopupComponent,
+    ConfigurePurposeComponent  
   ]
 })
 

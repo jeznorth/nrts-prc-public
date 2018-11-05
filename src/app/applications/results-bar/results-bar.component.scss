@@ -1,0 +1,20 @@
+@import "~assets/styles/base/base.scss";
+
+// Results Bar
+.results-info-bar {
+  @include flex-box();
+  padding: 1.25rem;
+  align-items: center;
+  justify-content: flex-end;
+  background: rgba(255,255,255, 0.75);
+}
+
+.results-info-bar__count {
+  @include flex(1 1 auto);
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+.results-info-bar__actions {
+  @include flex(0 0 auto);
+}

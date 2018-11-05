@@ -1,9 +1,5 @@
 <div class="app-list__container" id="applist-list" name="List of Crown land applications, limited by filters and bound by map view">
 
-    <div class="app-list__header">
-      header
-    </div>
-
     <div class="app-list__body">
   
       <!-- Initial Loading Indicator -->
@@ -22,6 +18,8 @@
             <ng-template ngFor let-item [ngForOf]="loadedApps()">
               <tr>
                 <td>{{item['clFile'] || 'Not Available'}}</td>
+                <td>{{item.tantalisID}}</td>
+                <td>{{item.client || 'Unknown Client'}}</td>
                 <td class="actions-col">
                   <i class="material-icons" (click)="toggleCurrentApp(item);$event.stopPropagation();">
                     info

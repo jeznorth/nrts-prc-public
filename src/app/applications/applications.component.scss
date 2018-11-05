@@ -13,92 +13,23 @@ app-applications:host {
 
 @media (min-width: 768px) {
   app-applications:host {
-    top: 4.2rem;            
-  }
-}
-
-// List Container
-.app-list-container {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 3rem;
-  z-index: 1002;
-  transform: translateX(-100%) translateX(-3rem);
-  transition: transform ease-out $toggle-list-anim-duration;
-  border-top: 1px solid #ddd;
-}
-
-// List Container {
-@media (min-width: 768px) {
-  .app-list-container {
-    width: 22rem;
-  }
-}
-
-@media (min-width: 1200px) {
-  .app-list-container {
-    border-top: none;
-  }
-}
-
-.overlay {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: rgba(0,0,0,0.5);
-  opacity: 0;
-  transform: translateX(-100%);
-  transition: opacity ease-out $toggle-list-anim-duration;
-}
-
-
-// Container for the List and Map components
-.app-list-map-container {
-  @include flex(1 1 auto);
-  position: relative;
-}
-
-// Application List Open / Closed State
-.app-list-open {
-  .app-list-container {
-    box-shadow: $map-component-shadow;
-    transform: translateX(0) translateX(-3rem);
-  }
-
-  .overlay {
-    z-index: 1001;
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@media (min-width: 768px) {
-  .app-list-open {
-    .overlay {
-      display: none;
-    }
-  }
-}
-
-@media (min-width: 1200px) {
-  .app-list-open {
-    .app-filters {
-      left: calc(50% + 12.5rem);
-    }
+    top: 71px;            
   }
 }
 
 .app-view {
   @include flex-box();
-  @include flex-flow(row nowrap);
+  @include flex-flow(column nowrap);
   position: absolute;
   width: 100%;
   height: 100%;
   overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .app-view {
+    @include flex-flow(row nowrap);
+  }
 }
 
 .main-container {
@@ -107,6 +38,7 @@ app-applications:host {
   @include flex(1 1 auto);
   position: relative;
   overflow: hidden;
+  order: 1;
 }
 
 .app-filters {
@@ -117,88 +49,180 @@ app-applications:host {
 .app-results {
   @include flex(1 1 auto);
   position: relative;
-  background: #eee;
 }
 
-.app-list {
+.app-results-bar {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  bottom: 1rem;
-  left: 1rem;
-}
-
-.detail-view {
-  border-left: 1px solid #ccc;
-}
-
-.detail-closed .detail-view {
-  width: 0;
-}
-
-.detail-open .detail-view {
-  width: 20rem;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 10000;
 }
 
 .show-list {
   .app-map {
-    visibility: hidden;
+    display: none;
   }
 }
 
 .show-map {
   .app-list {
-    visibility: hidden;
+    display: none;
   }
 }
 
-.toggle-btn {
-  position: fixed;
+.sidepanel {
+  overflow: hidden;
+  //border-right: 1px solid #ccc;
+  background: #fff;
+  transition: transform ease-out 0.2s;
+}
+
+.sidepanel__content {
+  position: absolute;
+  
+  ::ng-deep {
+    .flex-panel {
+      position: absolute;
+    }
+  }
+}
+
+.sidepanel__close-btn {
+  position: absolute;
   top: 1rem;
   right: 1rem;
   z-index: 10000;
 }
 
-.app-filters {
-  @include flex-box();
-  @include flex-flow(row nowrap);
-  @include flex(0 0 auto);
-  padding: 1rem;
-  border-bottom: 1px solid #ccc;
-}
+@media (max-width: 1023px) {
+  .sidepanel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 2000;
 
-.app-filters__title {
-  @include flex(1 1 auto);
-}
-
-.app-filters__result-toggle {
-  @include flex(0 0 auto);
-}
-
-.flex-panel {
-  @include flex(1 1 auto);
-}
-
-.flex-panel__header {
-  @include flex-box();
-  @include flex-flow(row nowrap);
-  @include flex(0 0 auto);
-  padding: 1rem;
-
-  .flex-panel__header--title {
-    @include flex(1 1 auto);
+    &.sidepanel--closed {
+      transform: translateX(100%);
+    }
+    
+    &.sidepanel--open {
+      transform: translateX(0);
+    }
   }
 
-  .flex-panel__header--close {
+  .sidepanel__content {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    ::ng-deep {
+      .flex-panel {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+      }
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .sidepanel {
     @include flex(0 0 auto);
+    position: relative;
+    width: 0;
+    transition: width ease-out 0.2s;
+
+    &.sidepanel--open {
+      width: 500px;
+    }
+
+    .sidepanel__content {
+      top: 0;
+      right: 0;
+      bottom: 0;
+
+      ::ng-deep {
+        .flex-panel {
+          top: 0;
+          right: 0;
+          bottom: 0;
+          width: 500px;
+        }
+      }
+    }
   }
 }
 
-.flex-panel__scroll {
-  @include flex(1 1 auto);
-  overflow-y: scroll;
+$sidepanel-nav-color: #fff;
+$sidepanel-nav-bg: #0050a1;
+
+.sidepanel-nav {
+  @include flex(0 0 auto);
+  margin: 0;
+  padding: 0;
+  background: $sidepanel-nav-bg;
+  list-style-type: none;
+  order: 0;
+
+  li {
+    display: inline-block;
+  }
 }
 
-.flex-panel__footer {
-  @include flex(0 0 auto);
+.sidepanel-nav .btn {
+  display: block;
+  width: 5.5rem;
+  height: 4.5rem;
+  color: rgba($sidepanel-nav-color, 0.6);
+  background: $sidepanel-nav-bg;
+  border-radius: 0;
+  border: none;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+
+  i {
+    vertical-align: top;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sidepanel-nav {
+    height: 100%;
+    border-bottom: none;
+
+    li {
+      display: block;
+    }
+  }
+
+  .sidepanel-nav .btn.active {
+    color: $sidepanel-nav-color;
+    border: none;
+    background: lighten($sidepanel-nav-bg, 10%);
+    box-shadow: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .app-view {
+    @include flex-flow(row nowrap);
+  }
+
+  .main-container {
+    order: 3;
+  }
+
+  .sidepanel-nav {
+    order: 1;
+  }
+
+  .sidepanel {
+    order: 2;
+  }
 }

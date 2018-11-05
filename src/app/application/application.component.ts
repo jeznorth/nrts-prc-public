@@ -145,7 +145,7 @@ export class ApplicationComponent implements OnInit, AfterViewInit, OnDestroy {
       'World Topographic': World_Topo_Map,
       'World Imagery': World_Imagery
     };
-    L.control.layers(baseLayers).addTo(this.map);
+    //L.control.layers(baseLayers).addTo(this.map);
 
     // load base layer
     for (const key of Object.keys(baseLayers)) {

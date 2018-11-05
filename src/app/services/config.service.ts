@@ -12,10 +12,12 @@ export class ConfigService {
   // defaults
   private _isApplistListVisible = false;
   private _isApplistFiltersVisible = false;
-  private _isApplistDetailVisible = false;
+  private _isSidePanelVisible = false;
   private _listPageSize = 10;
 
-  private _isAppDetailsVisible = true;
+  private _isDetailsVisible = false;
+  private _isExploreVisible = false;
+  private _isFiltersVisible = false;
 
   // TODO: store these in URL instead
   private _baseLayerName = 'World Topographic'; // NB: must match a valid base layer name
@@ -39,8 +41,24 @@ export class ConfigService {
   get isApplistFiltersVisible(): boolean { return this._isApplistFiltersVisible; }
   set isApplistFiltersVisible(val: boolean) { this._isApplistFiltersVisible = val; }
 
-  get isApplistDetailVisible(): boolean { return this._isApplistDetailVisible; }
-  set isApplistDetailVisible(val: boolean) { this._isApplistDetailVisible = val; }
+  get isSidePanelVisible(): boolean { return this._isSidePanelVisible; }
+  set isSidePanelVisible(val: boolean) { this._isSidePanelVisible = val; }
+
+
+
+  // Filters Interface Visibility
+  get isFiltersVisible(): boolean { return this._isFiltersVisible; }
+  set isFiltersVisible(val: boolean) { this._isFiltersVisible = val; }
+
+  // Details Interface Visibility
+  get isDetailsVisible(): boolean { return this._isDetailsVisible; }
+  set isDetailsVisible(val: boolean) { this._isDetailsVisible = val; }
+
+  // Explore Interface Visibility 
+  get isExploreVisible(): boolean { return this._isExploreVisible; }
+  set isExploreVisible(val: boolean) { this._isExploreVisible = val; }
+
+
 
   get listPageSize(): number { return this._listPageSize; }
   set listPageSize(val: number) { this._listPageSize = val; }

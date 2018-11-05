@@ -215,32 +215,13 @@ main {
   }
 }
 
-// Icon Button
-.btn-icon {
-  min-width: 2.5rem !important;
-  padding-top: 0.35rem;
-  padding-right: 0;
-  padding-bottom: 0.35rem;
-  padding-left: 0;
-  overflow: hidden;
-  color: #808080;
+.icon-btn {
   background: transparent;
-  transition: all ease-out 0.2s;
-  cursor: pointer;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
 
   i {
-    margin-top: -0.1rem;
     vertical-align: middle;
-  }
-  
-  .btn-txt {
-    visibility: hidden;
-  }
-
-  &:active,
-  &:focus,
-  &:hover {
-    color: #000;
-    background: #eee;
   }
 }

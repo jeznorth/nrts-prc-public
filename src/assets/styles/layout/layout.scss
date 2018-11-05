@@ -72,3 +72,39 @@ hr {
     }
   }
 }
+
+// Flex Panel
+.flex-panel {
+  @include flex-box();
+  @include flex-direction(column);
+}
+
+.flex-panel__header {
+  @include flex(0 0 auto);
+  padding-top: 1.4rem;
+  padding-right: 1.5rem;
+  padding-bottom: 1.25rem;
+  padding-left: 1.5rem;
+  //border-bottom: 1px solid #eee;
+  //background: #f7f8fa;
+
+  .title {
+    margin: 0;
+    letter-spacing: -0.02rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+}
+
+.flex-panel__scroll {
+  @include flex(1 1 auto);
+  padding-top: 0;
+  padding-right: 1.5rem;
+  padding-bottom: 1.5rem;
+  padding-left: 1.5rem;
+  overflow-y: auto;
+}
+
+.flex-panel__footer {
+  @include flex(0 0 auto);
+}

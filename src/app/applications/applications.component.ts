@@ -56,7 +56,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
   public listApps: Array<Application> = [];
   // private filters: FiltersType = null; // FUTURE
   private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
-  public toggleMapList = true;
+  public toggleResultView = true;
   public currentAppId: string = null; // TODO: set this when list item is clicked
 
   constructor(
@@ -184,10 +184,10 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
 
     // do something on the detail pane:
     if (show) {
-      this.configService.isApplistDetailVisible = true;
+      this.configService.isSidePanelVisible = true;
       this.currentAppId = app._id;
     } else {
-      this.configService.isApplistDetailVisible = false;
+      this.configService.isSidePanelVisible = false;
       this.currentAppId = null;
     }
   }
@@ -201,11 +201,32 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
   // }
 
   public showMap() {
-    this.toggleMapList = true;
+    this.toggleResultView = true;
   }
 
   public showList() {
-    this.toggleMapList = false;
+    this.toggleResultView = false;
   }
 
+  public showFilters() {
+    this.configService.isSidePanelVisible = true;
+    this.configService.isDetailsVisible = false;
+    this.configService.isExploreVisible = false;
+    this.configService.isFiltersVisible = true;
+  }
+
+  public showDetails() {
+    this.configService.isSidePanelVisible = true;
+    this.configService.isDetailsVisible = true;
+    this.configService.isExploreVisible = false;
+    this.configService.isFiltersVisible = false;
+  }
+
+  public showExplore() {
+    this.configService.isSidePanelVisible = true;
+    this.configService.isDetailsVisible = false;
+    this.configService.isExploreVisible = true;
+    this.configService.isFiltersVisible = false;
+  }
+ 
 }

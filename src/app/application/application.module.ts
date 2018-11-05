@@ -17,6 +17,7 @@ import { ViewCommentComponent } from './commenting-tab/view-comment/view-comment
 import { DecisionsTabComponent } from './decisions-tab/decisions-tab.component';
 import { AddCommentComponent } from './add-comment/add-comment.component';
 import { FileUploadComponent } from './add-comment/file-upload/file-upload.component';
+import { ConfigurePurposeComponent } from 'app/applications/explore/configure-purpose/configure-purpose.component';
 
 @NgModule({
   imports: [

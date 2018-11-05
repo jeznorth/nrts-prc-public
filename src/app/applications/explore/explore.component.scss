@@ -1,0 +1,154 @@
+@import "~assets/styles/base/base.scss";
+
+.explore {
+  padding: 1.5rem 2rem;
+}
+
+.form-group {
+  margin-bottom: 2rem;
+}
+
+.checkbox-group {
+  margin: -0.15rem;
+  overflow: hidden;
+}
+
+.control-label {
+  margin-bottom: 0.5rem;
+}
+
+// Custom Checkbox / Badge Controls
+.form-check {
+  margin: 0.15rem;
+  float: left;
+
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+  }
+
+  label {
+    position: relative;
+    margin: 0;
+    height: 2rem;
+    padding-top: 0.3rem;
+    padding-right: 1.2rem;
+    padding-bottom: 0.3rem;
+    padding-left: 2rem;
+    border-radius: 1rem;
+    border: 2px solid transparent;
+    color: #777;
+    background: #eee;
+    font-size: 0.825rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all ease-out 0.2s;
+
+    &::before {
+      font-family: 'Material Icons';
+      content: 'remove';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 34px;
+      height: 100%;
+      text-align: center;
+      line-height: 1.8rem;
+      font-size: 1rem;
+    }
+  }
+
+  input:focus,
+  input:active {
+    + label {
+      color: #000;
+      border-color: #74c0fc;
+      background: #d0ebff;
+      //box-shadow: 0 0 4px 0 #74c0fc;
+    }
+  }
+
+  input:hover {
+    + label {
+      color: #000;
+      background: #d0ebff;
+    }
+  }
+
+  input:checked {
+    + label {
+      color: #000;
+      background: #a5d8ff;
+
+      &::before {
+        opacity: 1;
+        content: 'check';
+      }
+    }
+
+    ~ button {
+      background: #a5d8ff;
+    }
+  }
+}
+
+.form-check.options-enabled {
+  @include flex-box();
+
+  label {
+    padding-right: 0.5rem;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  button {
+    margin-left: 1px;
+    padding: 0;
+    width: 2.25rem;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    border: 2px solid transparent;
+    background: #eee;
+    text-align: center;
+
+    i {
+      margin-top: -4px;
+      margin-left: -3px;
+      vertical-align: middle;
+      font-size: 1rem;
+    }
+  }
+
+  button:active,
+  button:focus {
+    outline: none;
+    border-color: #74c0fc;
+    background: #d0ebff;
+    box-shadow: none;
+  }
+}
+
+// Published Dates Input
+.published-dates {
+  @include clearfix();
+
+  .form-control {
+    float: left;
+    width: 11rem;
+  }
+
+  .spacer {
+    float: left;
+    margin-top: 0.1rem;
+    width: 2rem;
+    text-align: center;
+    line-height: 1.8rem;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+}

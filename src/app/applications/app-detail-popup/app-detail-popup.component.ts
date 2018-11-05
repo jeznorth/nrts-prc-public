@@ -22,7 +22,10 @@ export class AppDetailPopupComponent {
   ) { }
 
   public openAppDetail() {
-    this.configService.isApplistDetailVisible = true;
     this.setCurrentApp.emit(this.app);
+    this.configService.isSidePanelVisible = true;
+    this.configService.isDetailsVisible = true;
+    this.configService.isExploreVisible = false;
+    this.configService.isFiltersVisible = false;
   }
 }
