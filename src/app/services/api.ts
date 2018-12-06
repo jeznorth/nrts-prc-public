@@ -93,16 +93,15 @@ export class ApiService {
   //
   // Applications
   //
-  getCountApplications(regions: string[], cpStartSince: string, cpStartUntil: string, cpEndSince: string, cpEndUntil: string,
-    appStatuses: string[], applicant: string, clidDtid: string, purpose: string, subpurpose: string, publishSince: string,
-    publishUntil: string, coordinates: string): Observable<number> {
+  getCountApplications(cpStartSince: string, cpStartUntil: string, cpEndSince: string, cpEndUntil: string, appStatuses: string[],
+    applicant: string, clidDtid: string, purpose: string, subpurpose: string, publishSince: string, publishUntil: string,
+    coordinates: string): Observable<number> {
     let queryString = `application?`;
-    if (regions !== null && regions.length > 0) { queryString += `regions=${this.buildValues(regions)}&`; }
     if (cpStartSince !== null) { queryString += `cpStart[since]=${cpStartSince}&`; }
     if (cpStartUntil !== null) { queryString += `cpStart[until]=${cpStartUntil}&`; }
     if (cpEndSince !== null) { queryString += `cpEnd[since]=${cpEndSince}&`; }
     if (cpEndUntil !== null) { queryString += `cpEnd[until]=${cpEndUntil}&`; }
-    if (appStatuses !== null && appStatuses.length > 0) { queryString += `statuses=${this.buildValues(appStatuses)}&`; }
+    if (appStatuses !== null) { appStatuses.forEach(status => queryString += `status[eq]=${status}&`); }
     if (applicant !== null) { queryString += `client=${applicant}&`; }
     if (purpose !== null) { queryString += `purpose[eq]=${purpose}&`; }
     if (subpurpose !== null) { queryString += `subpurpose[eq]=${subpurpose}&`; }
@@ -128,9 +127,9 @@ export class ApiService {
     }
   }
 
-  getApplications(pageNum: number, pageSize: number, regions: string[], cpStartSince: string, cpStartUntil: string, cpEndSince: string,
-    cpEndUntil: string, appStatuses: string[], applicant: string, clidDtid: string, purpose: string, subpurpose: string, publishSince: string,
-    publishUntil: string, coordinates: string) {
+  getApplications(pageNum: number, pageSize: number, cpStartSince: string, cpStartUntil: string, cpEndSince: string, cpEndUntil: string,
+    appStatuses: string[], applicant: string, clidDtid: string, purpose: string, subpurpose: string, publishSince: string, publishUntil: string,
+    coordinates: string) {
     const fields = [
       'agency',
       'areaHectares',
@@ -155,12 +154,11 @@ export class ApiService {
     let queryString = 'application?';
     if (pageNum !== null) { queryString += `pageNum=${pageNum}&`; }
     if (pageSize !== null) { queryString += `pageSize=${pageSize}&`; }
-    if (regions !== null && regions.length > 0) { queryString += `regions=${this.buildValues(regions)}&`; }
     if (cpStartSince !== null) { queryString += `cpStart[since]=${cpStartSince}&`; }
     if (cpStartUntil !== null) { queryString += `cpStart[until]=${cpStartUntil}&`; }
     if (cpEndSince !== null) { queryString += `cpEnd[since]=${cpEndSince}&`; }
     if (cpEndUntil !== null) { queryString += `cpEnd[until]=${cpEndUntil}&`; }
-    if (appStatuses !== null && appStatuses.length > 0) { queryString += `statuses=${this.buildValues(appStatuses)}&`; }
+    if (appStatuses !== null) { appStatuses.forEach(status => queryString += `status[eq]=${status}&`); }
     if (applicant !== null) { queryString += `client=${applicant}&`; }
     if (purpose !== null) { queryString += `purpose[eq]=${purpose}&`; }
     if (subpurpose !== null) { queryString += `subpurpose[eq]=${subpurpose}&`; }
