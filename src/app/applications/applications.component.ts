@@ -87,22 +87,11 @@ export class ApplicationsComponent implements OnInit, AfterViewInit, OnDestroy {
     public configService: ConfigService, // used in template
     private renderer: Renderer2
   ) {
-    // add a class to the body tag here to limit the height of the viewport when on the Applications page
-    this.router.events
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(event => {
-        if (event instanceof NavigationEnd) {
-          const currentUrlSlug = event.url.slice(1);
-          if (currentUrlSlug === 'applications') {
-            this.renderer.addClass(document.body, 'no-scroll');
-          } else {
-            this.renderer.removeClass(document.body, 'no-scroll');
-          }
-        }
-      });
   }
 
   ngOnInit() {
+    this.renderer.addClass(document.body, 'no-scroll');
+
     // prevent underlying map actions for list and filters components
     const applist_list = <HTMLElement>document.getElementById('applist-list');
     L.DomEvent.disableClickPropagation(applist_list);
@@ -202,6 +191,7 @@ export class ApplicationsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.renderer.removeClass(document.body, 'no-scroll');
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
