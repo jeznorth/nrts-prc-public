@@ -1,15 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { AppDetailPopupComponent } from './app-detail-popup.component';
-import { NgxTextOverflowClampModule } from 'ngx-text-overflow-clamp';
-import { VarDirective } from 'app/utils/ng-var.directive';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NgxTextOverflowClampModule } from 'ngx-text-overflow-clamp';
+
+import { MarkerPopupComponent } from './marker-popup.component';
+import { VarDirective } from 'app/utils/ng-var.directive';
 import { ApplicationService } from 'app/services/application.service';
 import { CommentPeriodService } from 'app/services/commentperiod.service';
 
-xdescribe('AppDetailPopupComponent', () => {
-  let component: AppDetailPopupComponent;
-  let fixture: ComponentFixture<AppDetailPopupComponent>;
+xdescribe('MarkerPopupComponent', () => {
+  let component: MarkerPopupComponent;
+  let fixture: ComponentFixture<MarkerPopupComponent>;
   const stubApplicationService = {
     getStatusCode() {
       return 'AC';
@@ -20,7 +20,6 @@ xdescribe('AppDetailPopupComponent', () => {
     },
 
     isDispGoodStanding() { return false; },
-
     isOffered() { return true; },
     isOfferAccepted() { return true; },
     isAbandoned() { return false; },
@@ -38,20 +37,20 @@ xdescribe('AppDetailPopupComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppDetailPopupComponent,
+        MarkerPopupComponent,
         VarDirective
       ],
-      imports: [ NgxTextOverflowClampModule, RouterTestingModule ],
+      imports: [NgxTextOverflowClampModule, RouterTestingModule],
       providers: [
         { provide: ApplicationService, useValue: stubApplicationService },
         { provide: CommentPeriodService, useValue: stubCommentPeriodService },
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AppDetailPopupComponent);
+    fixture = TestBed.createComponent(MarkerPopupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

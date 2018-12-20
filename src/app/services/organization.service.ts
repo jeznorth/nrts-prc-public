@@ -18,8 +18,8 @@ export class OrganizationService {
     return this.api.getOrganizations()
       .map(res => {
         const organizations = res.text() ? res.json() : [];
-        organizations.forEach((org, index) => {
-          organizations[index] = new Organization(org);
+        organizations.forEach((obj: any, i: number) => {
+          organizations[i] = new Organization(obj);
         });
         return organizations;
       })
