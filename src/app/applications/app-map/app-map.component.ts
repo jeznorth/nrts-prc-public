@@ -81,6 +81,7 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
     this.urlService.onNavEnd$
       .takeUntil(this.ngUnsubscribe)
       .subscribe(() => {
+        // FUTURE
         // // try to load new map state
         // if (this.isMapReady) {
         //   const lat = this.urlService.query('lat');
@@ -222,7 +223,7 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
     // ensure that when we zoom to the cluster group we allocate some space around the edge of the map
     // TODO: make this work
-    // this.markerClusterGroup.on('clusterclick', a=> a.layer.zoomToBounds({padding: [100, 100]}));
+    // this.markerClusterGroup.on('clusterclick', a => a.layer.zoomToBounds({padding: [100, 100]}));
 
     // define baselayers
     const baseLayers = {
@@ -270,7 +271,6 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
   // ref: https://stackoverflow.com/questions/19669786/check-if-element-is-visible-in-dom
   private fixMap() {
     // console.log('fixing map');
-
     if (this.elementRef.nativeElement.offsetParent) {
       // try to restore map state
       const lat = this.urlService.query('lat');
@@ -278,10 +278,8 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
       const zoom = this.urlService.query('zoom');
 
       if (lat && lng && zoom) {
-        // console.log('...setting map state');
         this.map.setView(L.latLng(+lat, +lng), +zoom); // NOTE: unary operators
       } else {
-        // console.log('...fitting default bounds');
         this.fitBounds(); // default bounds
       }
     } else {
@@ -335,7 +333,6 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
     // FUTURE
     // // clear map state
-    // console.log('clearing map state');
     // this.urlService.save('lat', null);
     // this.urlService.save('lng', null);
     // this.urlService.save('zoom', null);
@@ -348,7 +345,6 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
    */
   // tslint:disable-next-line:member-ordering
   private emitCoordinates = _.debounce(() => {
-    // console.log('emitting coordinates');
     this.updateCoordinates.emit(this.getCoordinates());
   }, 250);
 
@@ -386,7 +382,6 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
     coordinates += this.latLngToCoord(bounds.getSouthWest()) + ','; // bottom left
 
     // remove last comma and convert to a GeoJSON coordinates string
-    // console.log('coordinates = ', coordinates);
     return `[[${coordinates.slice(0, -1)}]]`;
 
     // NEW CODE (USING API $BOX QUERY)
@@ -500,8 +495,10 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   /**
-   * Called when list component selects or unselects an app.
+   * Called when an app is selected or unselected.
    */
+  // TODO: wait until loading is complete before highlighting marker (see vvv)
+  //       see https://basarat.gitbooks.io/typescript/docs/async-await.html
   public onHighlightApplication(app: Application, show: boolean) {
     // reset icon on previous marker, if any
     if (this.currentMarker) {
@@ -512,12 +509,15 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
     // set icon on new marker
     if (show && app) { // safety check
       const marker = _.find(this.markerList, { dispositionId: app.tantalisID });
+      // TODO: marker may not yet be in markerList (see ^^^)
       if (marker) {
         this.currentMarker = marker;
         marker.setIcon(markerIconLg);
-        // FUTURE: zoom in to this app/marker ?
-        // FUTURE: show the marker popup ?
-        // this.onMarkerClick(app, { target: marker });
+        const visibleParent = this.markerClusterGroup.getVisibleParent(marker);
+        // if marker is in a cluster, zoom into it
+        if (marker !== visibleParent) {
+          this.markerClusterGroup.zoomToShowLayer(marker, () => console.log('zoomed'));
+        }
       }
     }
   }

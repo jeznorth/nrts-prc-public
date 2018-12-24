@@ -33,21 +33,22 @@
     </button>
     <app-details-panel #detailsPanel
       [isLoading]="isLoading"
+      (loadingApp)="disableSplash()"
       (setCurrentApp)="updateDetails($event, true)"
       (unsetCurrentApp)="updateDetails($event, false)"
       [hidden]="!isAppDetailsVisible">
     </app-details-panel>
     <app-find-panel #findPanel
       [isLoading]="isLoading"
-      (updateFilters)="updateFindFilters($event)"
-      (hideSidePanel)="isSidePanelVisible=false"
+      (updateFilters)="disableSplash();updateFindFilters($event)"
+      (hideSidePanel)="closeSidePanel()"
       (resetView)="appmap.resetView()"
       [hidden]="!isFindAppsVisible">
     </app-find-panel>
     <app-explore-panel #explorePanel
       [isLoading]="isLoading"
-      (updateFilters)="updateExploreFilters($event)"
-      (hideSidePanel)="isSidePanelVisible=false"
+      (updateFilters)="disableSplash();updateExploreFilters($event)"
+      (hideSidePanel)="closeSidePanel()"
       (resetView)="appmap.resetView()"
       [hidden]="!isExploreAppsVisible">
     </app-explore-panel>
