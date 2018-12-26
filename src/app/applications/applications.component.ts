@@ -157,7 +157,7 @@ export class ApplicationsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // show snackbar
-  // NB: use debounce to delay snackbar opening so we can cancel it if loading takes less than 500ms
+  // NB: use debounce to delay snackbar opening so we can cancel it preemptively if loading takes less than 500ms
   // tslint:disable-next-line:member-ordering
   private showSnackBar = _.debounce(() => {
     this.snackBarRef = this.snackBar.open('Loading applications ...');
@@ -169,7 +169,7 @@ export class ApplicationsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.showSnackBar.cancel();
 
     // if snackbar is showing, dismiss it
-    // NB: use debounce to delay snackbar dismiss so it is visible for at least 500ms
+    // NB: use debounce to delay snackbar dismissal so it is visible for at least 500ms
     if (this.snackBarRef) {
       _.debounce(() => {
         this.snackBarRef.dismiss();
@@ -187,7 +187,7 @@ export class ApplicationsComponent implements OnInit, AfterViewInit, OnDestroy {
   private getApps(getTotalNumber: boolean = true) {
     // do this in another event so it's not in current change detection cycle
     setTimeout(() => {
-      // safety check // TODO: remove this when this processing becomes interruptable (see above)
+      // safety check // TODO: remove this when this processing becomes interruptable (see FUTURE, above)
       if (this.isLoading) { return; }
 
       this.showSnackBar();
