@@ -4,6 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/concat';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/finally';
@@ -71,15 +72,16 @@ export class ApplicationsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public isLoading = false; // initial value
   private splashModal: NgbModalRef = null;
-  private snackBarRef: MatSnackBarRef<SimpleSnackBar> = null;
+  private snackbarRef: MatSnackBarRef<SimpleSnackBar> = null;
   private filters: FiltersType = null;
   private coordinates: string = null;
   public apps: Array<Application> = [];
   public totalNumber = 0;
+  private observablesSub: Subscription = null;
   private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    public snackBar: MatSnackBar,
+    public snackbar: MatSnackBar,
     private modalService: NgbModal,
     private router: Router,
     private applicationService: ApplicationService,
@@ -150,7 +152,7 @@ export class ApplicationsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.splashModal) { this.splashModal.dismiss(); }
-    if (this.snackBarRef) { this.hideSnackBar(); }
+    if (this.snackbarRef) { this.hideSnackbar(); }
     this.renderer.removeClass(document.body, 'no-scroll');
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
@@ -159,44 +161,39 @@ export class ApplicationsComponent implements OnInit, AfterViewInit, OnDestroy {
   // show snackbar
   // NB: use debounce to delay snackbar opening so we can cancel it preemptively if loading takes less than 500ms
   // tslint:disable-next-line:member-ordering
-  private showSnackBar = _.debounce(() => {
-    this.snackBarRef = this.snackBar.open('Loading applications ...');
+  private showSnackbar = _.debounce(() => {
+    this.snackbarRef = this.snackbar.open('Loading applications ...');
   }, 500);
 
   // hide snackbar
-  private hideSnackBar() {
+  private hideSnackbar() {
     // cancel any pending open
-    this.showSnackBar.cancel();
+    this.showSnackbar.cancel();
 
     // if snackbar is showing, dismiss it
     // NB: use debounce to delay snackbar dismissal so it is visible for at least 500ms
-    if (this.snackBarRef) {
-      _.debounce(() => {
-        this.snackBarRef.dismiss();
-        this.snackBarRef = null;
-      }, 500)();
-    }
+    _.debounce(() => {
+      if (this.snackbarRef) {
+        this.snackbarRef.dismiss();
+        this.snackbarRef = null;
+      }
+    }, 500)();
   }
-
-  // FUTURE: allow user action to interrupt current data retrieval...
-  // - create a new observable that emits any time we need updated data
-  // - listen to that observable (ie, yield) and get data then -- with debounce/throttle to handle overlapping events
-  // - also look at takeWhile()/takeUntil() (to complete the current query)
-  // - or unsubscribe?
 
   private getApps(getTotalNumber: boolean = true) {
     // do this in another event so it's not in current change detection cycle
     setTimeout(() => {
-      // safety check // TODO: remove this when this processing becomes interruptable (see FUTURE, above)
-      if (this.isLoading) { return; }
+      // pre-empt existing observables execution
+      if (this.observablesSub && !this.observablesSub.closed) {
+        this.observablesSub.unsubscribe();
+      }
 
-      this.showSnackBar();
+      this.showSnackbar();
       this.isLoading = true;
       let isFirstPage = true;
 
       if (getTotalNumber) {
-        // FOR FUTURE USE
-        // get total number using initial filters
+        // get total number using filters (but not coordinates)
         this.applicationService.getCount(this.filters, null)
           .takeUntil(this.ngUnsubscribe)
           .subscribe(count => {
@@ -219,11 +216,11 @@ export class ApplicationsComponent implements OnInit, AfterViewInit, OnDestroy {
 
           // get all observables sequentially
           const start = (new Date()).getTime(); // for profiling
-          Observable.concat(...observables)
+          this.observablesSub = Observable.concat(...observables)
             .takeUntil(this.ngUnsubscribe)
             .finally(() => {
               this.isLoading = false;
-              this.hideSnackBar();
+              this.hideSnackbar();
               console.log('got', this.apps.length, 'apps in', (new Date()).getTime() - start, 'ms');
             })
             .subscribe(applications => {
@@ -249,7 +246,7 @@ export class ApplicationsComponent implements OnInit, AfterViewInit, OnDestroy {
           // applications not found --> navigate back to home
           this.router.navigate(['/']);
           this.isLoading = false;
-          this.hideSnackBar();
+          this.hideSnackbar();
         });
     });
   }
