@@ -30,66 +30,74 @@ section {
 .application-purpose {
   letter-spacing: -0.02rem;
   line-height: 1.5rem;
-  font-size: 1.375rem;
-  font-weight: 600;
 }
 
 .applicant-name {
   color: $gray9;
+  font-size: 1.25rem;
+  font-weight: 600;
 }
 
 .application-purpose {
-  color: $gray5;
+  color: $gray7;
+  font-size: 1rem;
 }
 
 // Status 
 .status-container {
-  margin-top: 1.4rem;
   margin-bottom: 0;
   padding: 0;
   overflow: hidden;
 
   li {
-    padding-left: 1.75rem;
+    padding-top: 0.1rem;
+    padding-left: 2.4rem;
     overflow: hidden;
-    white-space: nowrap;
+    //white-space: nowrap;
     text-overflow: ellipsis;
-    font-size: 0.8rem;
-    background-position: left center;
+    //font-size: 0.8rem;
+    background-position: left top;
     background-repeat: no-repeat;
-    background-size: 20px;
+    background-size: 24px;
   }
 
   li + li {
-    margin-top: 0.35rem;
+    margin-top: 1rem;
   }
+}
+
+.status-value {
+  padding-left: 1.5rem;
+  background-repeat: no-repeat;
+  background-size: 18px;
+  background-position: left 1px;
 }
 
 // Status Iconography 
 .commenting-open {
-  background: url("~assets/images/baseline-insert_comment-24px.svg");
+  background-image: url("~assets/images/baseline-insert_comment-24px.svg");
 }
 
 .commenting-closed {
-  background: url("~assets/images/baseline-cancel-24px.svg");
+  background-image: url("~assets/images/baseline-cancel-24px.svg");
 }
 
 .under-review {
-  background: url("~assets/images/baseline-access_time-24px.svg");
+  background-image: url("~assets/images/baseline-access_time-24px.svg");
 }
 
 .review-complete,
 .unknown {
-  background: url("~assets/images/outline-info-24px.svg");
+  background-image: url("~assets/images/outline-info-24px.svg");
 }
 
 .approved {
-  background: url("~assets/images/baseline-check-24px.svg");
+  background-image: url("~assets/images/baseline-check-24px.svg");
 }
 
 .abandoned,
 .not-approved {
-  background: url("~assets/images/baseline-cancel-24px.svg");
+  background-image: url("~assets/images/baseline-cancel-24px.svg");
 }
 
 .app-details-info {
@@ -102,7 +110,7 @@ section {
   position: relative;
   overflow: hidden;
   margin-top: 0;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   padding: 0;
   display: table;
   width: 100%;
@@ -121,12 +129,13 @@ section {
   .key {
     display: table-cell;
     padding-right: 1.5rem;
+    padding-bottom: 0.2rem;
     white-space: nowrap;
   }
 
   .value {
     display: table-cell;
-    font-style: italic;
+    //font-style: italic;
   }
 }
 
@@ -190,13 +199,32 @@ section {
 
 .commenting-info-container {
   margin-bottom: 1.5rem;
+}
 
-  .btn {
-    margin-top: 1.25rem;
-    margin-bottom: 0.5rem;
-    padding: 0.75rem;
-    width: 100%;
-    font-size: 0.875rem;
-    font-weight: 700;
+.submit-comment-btn {
+  margin-top: 1.25rem;
+  padding: 0.75rem;
+  width: 100%;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.flex-panel__scroll {
+  padding: 0;
+}
+
+::ng-deep {
+  .nav-tabs {
+    display: none;
+  }
+
+  .tab-pane {
+    padding: 0;
+
+    section {
+      margin: 0 !important;
+      padding: 1.5rem;
+      border-bottom: 1px solid #ddd;
+    }
   }
 }
